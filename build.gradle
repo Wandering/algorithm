@@ -1,0 +1,41 @@
+group 'cn.bwl.yyp'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext.kotlin_version = '1.1.4-2'
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+task "createKotlinProject" << {
+    sourceSets*.kotlin.srcDirs*.each { it.mkdirs() }
+    sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+
+    /** 填充文件，便于git提交 */
+    file("src/main/kotlin/cn/bwl/algorithm").mkdirs()
+    file("src/main/kotlin/cn/bwl/algorithm/package-info.kt").createNewFile()
+
+    file("src/test/kotlin/cn/bwl/algorithm").mkdirs()
+    file("src/test/kotlin/cn/bwl/algorithm/package-info.kt").createNewFile()
+}
